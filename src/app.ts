@@ -192,3 +192,134 @@ addFn = (n1: number, n2: number) => {
     return n1 + n2;
 };
 console.log(addFn(4,4));
+
+//Intersection Types
+
+type Admin = {
+    name: string;
+    privileges: string[];
+};
+
+type Employee1 = {
+    name: string;
+    startDate: Date;
+};
+
+type ElevatedEmployee = Admin & Employee1;
+
+const e1 : ElevatedEmployee = {
+    name: 'Raj',
+    privileges: ['create-server'],
+    startDate: new Date()
+};
+console.log(e1);
+
+// Type Guards
+type combinable = string | number;
+//function overloading
+function sum(a: number, b: number): number;
+function sum(a: string, b: string): string;
+function sum(a: combinable, b: combinable) {
+    if(typeof a === 'string' || typeof b === 'string' ) {
+        return a.toString() + b.toString();
+    }
+    return a + b;
+}
+
+type unknownEmp = Admin | Employee1;
+
+function printEmpInfo(emp: unknownEmp){
+    console.log('Name: '+emp.name);
+    if('privileges' in emp){
+        console.log('Previleges : '+emp.privileges);
+    }
+    if('startDate' in emp){
+        console.log('Start Date : '+emp.startDate);
+    }
+}
+printEmpInfo(e1);
+
+
+class Car{
+    drive(){
+        console.log('Driving...')
+    }
+}
+
+class Truck{
+    drive(){
+        console.log('Driving a Truck...');
+    }
+    loadCargo(amount){
+        console.log('LoadCarGo...'+amount);
+    }
+}
+
+type Vehicle = Car | Truck;
+
+const v1 = new Car();
+const v2 = new Truck();
+
+function useVehicle(vehicle: Vehicle){
+    vehicle.drive();
+    //vehicle.loadCargo();
+    if('loadCargo' in vehicle){
+        vehicle.loadCargo(1000);
+    }
+
+}
+useVehicle(v1);
+useVehicle(v2);
+
+//Discriminated Unions
+
+interface Bird{
+    type: 'bird';
+    flyingSpeed: number;
+}
+interface Horse{
+    type: 'horse';
+    runningSpeed: number;
+}
+
+type Animal =Bird | Horse;
+function moveAnimal(animal: Animal){
+    //we can use like this also
+    //if('flyingSpeed' in animal){
+      //  console.log('Moving with speed : '+animal.flyingSpeed);
+    //}
+    let speed;
+    switch(animal.type){
+        case 'bird':
+            console.log('Moving at speed : '+animal.flyingSpeed);
+            break;
+        case 'horse':
+            console.log('Moving at speed : '+animal.runningSpeed);
+    }
+}
+moveAnimal({type: 'bird', flyingSpeed: 10});
+
+// Type Casting
+const userInput = document.getElementById('user-input');
+if(userInput){
+    (userInput as HTMLInputElement).value = 'Hello Welcome';
+}
+
+//Index Properties
+interface errorContainer{
+    [prop: string]: string;
+}
+
+const errorBag: errorContainer ={
+    email: 'Not a valid email',
+    uname: 'Must start with capital character.'
+}
+
+//OPtinal Chaining
+
+const fetchedUserData = {
+    id: 'u1',
+    name: 'raj',
+    job: {title: 'SE', description:'My own job'}
+};
+console.log(fetchedUserData?.job?.title, fetchedUserData?.job?.description);

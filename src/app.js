@@ -24,6 +24,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var _a, _b;
 // spread operator
 var hobbies = ['sports', 'cooking'];
 var activehobby = ['travelling'];
@@ -164,3 +165,86 @@ addFn = function (n1, n2) {
     return n1 + n2;
 };
 console.log(addFn(4, 4));
+var e1 = {
+    name: 'Raj',
+    privileges: ['create-server'],
+    startDate: new Date()
+};
+console.log(e1);
+function sum(a, b) {
+    if (typeof a === 'string' || typeof b === 'string') {
+        return a.toString() + b.toString();
+    }
+    return a + b;
+}
+function printEmpInfo(emp) {
+    console.log('Name: ' + emp.name);
+    if ('privileges' in emp) {
+        console.log('Previleges : ' + emp.privileges);
+    }
+    if ('startDate' in emp) {
+        console.log('Start Date : ' + emp.startDate);
+    }
+}
+printEmpInfo(e1);
+var Car = /** @class */ (function () {
+    function Car() {
+    }
+    Car.prototype.drive = function () {
+        console.log('Driving...');
+    };
+    return Car;
+}());
+var Truck = /** @class */ (function () {
+    function Truck() {
+    }
+    Truck.prototype.drive = function () {
+        console.log('Driving a Truck...');
+    };
+    Truck.prototype.loadCargo = function (amount) {
+        console.log('LoadCarGo...' + amount);
+    };
+    return Truck;
+}());
+var v1 = new Car();
+var v2 = new Truck();
+function useVehicle(vehicle) {
+    vehicle.drive();
+    //vehicle.loadCargo();
+    if ('loadCargo' in vehicle) {
+        vehicle.loadCargo(1000);
+    }
+}
+useVehicle(v1);
+useVehicle(v2);
+function moveAnimal(animal) {
+    //we can use like this also
+    //if('flyingSpeed' in animal){
+    //  console.log('Moving with speed : '+animal.flyingSpeed);
+    //}
+    var speed;
+    switch (animal.type) {
+        case 'bird':
+            console.log('Moving at speed : ' + animal.flyingSpeed);
+            break;
+        case 'horse':
+            console.log('Moving at speed : ' + animal.runningSpeed);
+    }
+}
+moveAnimal({ type: 'bird', flyingSpeed: 10 });
+// Type Casting
+var userInput = document.getElementById('user-input');
+if (userInput) {
+    userInput.value = 'Hello Welcome';
+}
+var errorBag = {
+    email: 'Not a valid email',
+    uname: 'Must start with capital character.'
+};
+//OPtinal Chaining
+var fetchedUserData = {
+    id: 'u1',
+    name: 'raj',
+    job: { title: 'SE', description: 'My own job' }
+};
+console.log((_a = fetchedUserData === null || fetchedUserData === void 0 ? void 0 : fetchedUserData.job) === null || _a === void 0 ? void 0 : _a.title, (_b = fetchedUserData === null || fetchedUserData === void 0 ? void 0 : fetchedUserData.job) === null || _b === void 0 ? void 0 : _b.description);
