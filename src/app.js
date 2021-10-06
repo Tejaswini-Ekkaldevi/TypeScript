@@ -24,6 +24,15 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 var _a, _b;
 // spread operator
 var hobbies = ['sports', 'cooking'];
@@ -248,3 +257,54 @@ var fetchedUserData = {
     job: { title: 'SE', description: 'My own job' }
 };
 console.log((_a = fetchedUserData === null || fetchedUserData === void 0 ? void 0 : fetchedUserData.job) === null || _a === void 0 ? void 0 : _a.title, (_b = fetchedUserData === null || fetchedUserData === void 0 ? void 0 : fetchedUserData.job) === null || _b === void 0 ? void 0 : _b.description);
+//Generics
+function merge(objA, objB) {
+    //return Object.assign(objA, objB);
+}
+var mergeObj = merge({ name: 'Raj', hobbies: 'travelling' }, { age: 25 });
+console.log(mergeObj);
+//Working with contraints
+function merge1(objA, objB) {
+    //return Object.assign(objA, objB);
+}
+var mergeObj1 = merge1({ name: 'Raj', hobbies: 'travelling' }, { age: 25 });
+console.log(mergeObj1);
+function countAndDescribe(element) {
+    var descriptionText = 'Got no value';
+    if (element.length === 1) {
+        descriptionText = 'Got 1 element';
+    }
+    else if (element.length > 1) {
+        descriptionText = 'Got ' + element.length + ' elements.';
+    }
+    return [element, descriptionText];
+}
+console.log(countAndDescribe('Hi There!'));
+// keyof contraint
+function extractAndCovert(obj, key) {
+    return 'Value ' + obj[key];
+}
+var s = extractAndCovert({ age: 20 }, 'age');
+console.log(s);
+//Generic Classes
+var dataDtorage = /** @class */ (function () {
+    function dataDtorage() {
+        this.data = [];
+    }
+    dataDtorage.prototype.addItem = function (item) {
+        this.data.push(item);
+    };
+    dataDtorage.prototype.removeItem = function (item) {
+        this.data.splice(this.data.indexOf(item), 1);
+    };
+    dataDtorage.prototype.getItems = function () {
+        return __spreadArray([], this.data, true);
+    };
+    return dataDtorage;
+}());
+var textStorage = new dataDtorage();
+textStorage.addItem('Raj');
+textStorage.addItem('Max');
+textStorage.addItem('Smith');
+textStorage.removeItem('Max');
+console.log(textStorage.getItems());

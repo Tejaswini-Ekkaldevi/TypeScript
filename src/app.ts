@@ -323,3 +323,66 @@ const fetchedUserData = {
     job: {title: 'SE', description:'My own job'}
 };
 console.log(fetchedUserData?.job?.title, fetchedUserData?.job?.description);
+
+//Generics
+function merge<T, U>(objA: T, objB: U){
+    //return Object.assign(objA, objB);
+}
+const mergeObj = merge({name: 'Raj', hobbies: 'travelling'}, {age: 25});
+console.log(mergeObj);
+
+//Working with contraints
+function merge1<T extends object, U extends object>(objA: T, objB: U){
+    //return Object.assign(objA, objB);
+}
+const mergeObj1 = merge1({name: 'Raj', hobbies: 'travelling'}, {age: 25});
+console.log(mergeObj1);
+
+// Another Generic Function
+
+interface Lengthy{
+    length: number;
+}
+
+function countAndDescribe<T extends Lengthy>(element: T): [T, string] {
+    let descriptionText = 'Got no value';
+    if(element.length === 1){
+        descriptionText = 'Got 1 element';
+    }else if(element.length > 1) {
+        descriptionText = 'Got ' + element.length + ' elements.'
+    }
+    return[element, descriptionText];
+}
+console.log(countAndDescribe('Hi There!'));
+
+// keyof contraint
+function extractAndCovert<T extends object, U extends keyof T>(obj: T, key: U) {
+    return 'Value ' + obj[key];
+} 
+const s = extractAndCovert({age:  20}, 'age');
+console.log(s);
+
+//Generic Classes
+
+class dataDtorage<T> {
+    private data: T[] = [];
+
+    addItem(item: T){
+        this.data.push(item);
+    }
+
+    removeItem(item: T){
+        this.data.splice(this.data.indexOf(item),1);
+    }
+
+    getItems(){
+        return [...this.data];
+
+    }
+}
+const textStorage = new dataDtorage<string>();
+textStorage.addItem('Raj');
+textStorage.addItem('Max');
+textStorage.addItem('Smith');
+textStorage.removeItem('Max');
+console.log(textStorage.getItems());
