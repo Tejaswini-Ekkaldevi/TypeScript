@@ -24,6 +24,12 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -158,6 +164,7 @@ console.log(account);
 account.addReport('Something went wrong');
 account.printReports();
 var Person = /** @class */ (function () {
+    // age: 30;
     function Person(n) {
         this.name = n;
     }
@@ -308,3 +315,78 @@ textStorage.addItem('Max');
 textStorage.addItem('Smith');
 textStorage.removeItem('Max');
 console.log(textStorage.getItems());
+//First class Decorator
+function Logger(constructor) {
+    console.log('Logging...');
+    console.log(constructor);
+}
+var PersonData = /** @class */ (function () {
+    function PersonData() {
+        this.name = 'Max';
+        console.log('Creating person object');
+    }
+    PersonData = __decorate([
+        Logger
+    ], PersonData);
+    return PersonData;
+}());
+var pers = new PersonData();
+console.log(pers);
+//Decorator Factory
+function Logger1(logString) {
+    return function (constructor) {
+        console.log(logString);
+        console.log(constructor);
+    };
+}
+function withTemplate(template, hookId) {
+    return function (_) {
+        var hookEl = document.getElementById(hookId);
+        if (hookEl) {
+            hookEl.innerHTML = template;
+        }
+    };
+}
+var PersonData1 = /** @class */ (function () {
+    function PersonData1() {
+        this.name = 'Max';
+        console.log('Creating person object');
+    }
+    PersonData1 = __decorate([
+        withTemplate('<h2>My Person Object</h2>', 'app')
+        //@Logger1('LOGGING-PERSON')
+    ], PersonData1);
+    return PersonData1;
+}());
+var pers1 = new PersonData1();
+console.log(pers1);
+// Decorator Property
+function Log(target, propertyName) {
+    console.log('Property Decorator');
+    console.log(target, propertyName);
+}
+var Product = /** @class */ (function () {
+    function Product(t, p) {
+        this.title = t;
+        this._price = p;
+    }
+    Object.defineProperty(Product.prototype, "price", {
+        set: function (val) {
+            if (val > 0) {
+                this._price = val;
+            }
+            else {
+                throw new Error('Invalid price - should be positive!');
+            }
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Product.prototype.getPriceWithTax = function (tax) {
+        return this._price * (1 + tax);
+    };
+    __decorate([
+        Log
+    ], Product.prototype, "title");
+    return Product;
+}());

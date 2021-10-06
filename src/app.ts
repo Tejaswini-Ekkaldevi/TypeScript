@@ -160,7 +160,7 @@ interface Greetable extends Named {
 }
 class Person implements Greetable {
     name:string;
-    age: 30;
+   // age: 30;
     constructor(n: string) {
         this.name = n;
     }
@@ -250,7 +250,7 @@ class Truck{
     drive(){
         console.log('Driving a Truck...');
     }
-    loadCargo(amount){
+    loadCargo(amount: number){
         console.log('LoadCarGo...'+amount);
     }
 }
@@ -386,3 +386,74 @@ textStorage.addItem('Max');
 textStorage.addItem('Smith');
 textStorage.removeItem('Max');
 console.log(textStorage.getItems());
+
+//First class Decorator
+function Logger(constructor: Function) {
+    console.log('Logging...');
+    console.log(constructor);
+}
+
+@Logger
+class PersonData {
+    name = 'Max';
+    constructor() {
+        console.log('Creating person object');
+    }
+}
+const pers = new PersonData();
+console.log(pers);
+
+//Decorator Factory
+
+function Logger1(logString: string) {
+    return function(constructor: Function) {
+    console.log(logString);
+    console.log(constructor);
+    };
+}
+
+function withTemplate(template: string, hookId: string) {
+    return function(_: Function){
+        const hookEl = document.getElementById(hookId);
+        if(hookEl){
+            hookEl.innerHTML = template;
+        }
+    }
+}
+
+@withTemplate('<h2>My Person Object</h2>', 'app')
+//@Logger1('LOGGING-PERSON')
+class PersonData1 {
+    name = 'Max';
+    constructor() {
+        console.log('Creating person object');
+    }
+}
+const pers1 = new PersonData1();
+console.log(pers1);
+
+// Decorator Property
+function Log(target: any, propertyName: string | symbol){
+    console.log('Property Decorator');
+    console.log(target, propertyName);
+}
+class Product {
+    @Log
+    title: string;
+    private _price: number;
+
+    set price(val: number){
+        if(val > 0) {
+            this._price = val;
+        }else {
+            throw new Error('Invalid price - should be positive!');
+        }
+    }
+    constructor(t: string, p: number) {
+        this.title = t;
+        this._price = p;
+    }
+    getPriceWithTax(tax: number) {
+        return this._price * (1 + tax);
+    }
+}
