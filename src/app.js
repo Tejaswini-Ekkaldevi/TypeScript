@@ -308,3 +308,10 @@ textStorage.addItem('Max');
 textStorage.addItem('Smith');
 textStorage.removeItem('Max');
 console.log(textStorage.getItems());
+function createCourseGoal(title, description, date) {
+    var courseGoal = {};
+    courseGoal.title = title;
+    courseGoal.description = description;
+    courseGoal.completeUntil = date;
+    return courseGoal;
+}
